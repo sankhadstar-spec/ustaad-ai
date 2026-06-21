@@ -1,0 +1,6 @@
+{
+  "name": "ustaad-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "USTAAD AI — Indian classical music studio + internet-enabled music expert chatbot. Static index.html + one Vercel serverless function, zero build step, zero dependencies."
+}
