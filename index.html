@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>USTAAD AI — Internet-Enabled Indian Classical Music Studio</title>
+<meta name="description" content="USTAAD AI — compose with Indian classical & global instruments, get real AI mentorship with voice from Ustaad AI, and grow your music on Instagram. By ©SHANKH." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F0C08; --bg-panel:#11100D; --glass:rgba(30,26,20,.92);
+    --border:rgba(139,111,71,.25); --cream:#EDE3D3; --gold:#D4A24C;
+    --gold-light:#F4D35E; --navy:#1E2A4A; --brown:#3A2C22; --brown-muted:#8B6F47;
+    --terracotta:#A8442F; --radius-lg:24px; --radius-md:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--cream);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  h1,h2,h3,.display{font-family:'Fraunces',Georgia,serif;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  input[type=text],input[type=number]{font-family:inherit;}
+  a{color:inherit;}
+  ::-webkit-scrollbar{height:8px;width:8px;}
+  ::-webkit-scrollbar-thumb{background:var(--brown-muted);border-radius:8px;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 18px;}
+
+  /* ---------- top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:50;background:var(--bg-panel);border-bottom:1px solid var(--border);}
+  .topbar-row{display:flex;align-items:center;justify-content:space-between;gap:14px;height:60px;flex-wrap:wrap;}
+  .brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+  .brand-mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;color:var(--bg);font-weight:700;font-size:19px;font-family:'Fraunces',serif;}
+  .brand-name{font-size:21px;font-weight:600;letter-spacing:-.5px;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;}
+  .brand-sub{font-size:9.5px;color:var(--brown-muted);letter-spacing:.3px;margin-top:2px;}
+  .transport{display:flex;align-items:center;gap:10px;background:var(--navy);border-radius:18px;padding:6px 14px;flex-wrap:wrap;}
+  .tbtn{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--gold);color:var(--bg);transition:transform .1s;}
+  .tbtn:active{transform:scale(.92);}
+  .tbtn.ghost{background:transparent;color:var(--cream);}
+  .tbtn.ghost:hover{background:var(--brown);}
+  .bpm-wrap{display:flex;align-items:center;gap:7px;font-size:13px;}
+  .bpm-num{font-family:monospace;color:var(--gold);width:30px;text-align:right;}
+  .rec-btn{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:11px;background:var(--brown);font-size:11px;font-weight:600;letter-spacing:.2px;white-space:nowrap;}
+  .rec-btn.live{background:var(--terracotta);color:#fff;}
+  .dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0;}
+  .rec-btn.live .dot{animation:pulse 1s infinite;}
+  @keyframes pulse{50%{opacity:.25;}}
+  .stat-pill{display:flex;align-items:center;gap:8px;background:var(--navy);padding:7px 14px;border-radius:18px;font-size:13px;flex-shrink:0;}
+  .tabs{display:flex;gap:2px;overflow-x:auto;border-top:1px solid var(--border);}
+  .tab-btn{display:flex;align-items:center;gap:7px;padding:12px 18px;font-size:13.5px;color:var(--brown-muted);white-space:nowrap;border-bottom:2px solid transparent;transition:color .15s;}
+  .tab-btn.active{color:var(--gold);font-weight:600;border-bottom-color:var(--gold);}
+  .tab-btn:hover{color:var(--cream);}
+
+  /* ---------- generic ---------- */
+  .glass{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:var(--radius-lg);}
+  .pill-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:16px;font-size:13.5px;font-weight:500;transition:transform .1s,opacity .15s;}
+  .pill-btn:active{transform:scale(.96);}
+  .pill-btn.primary{background:var(--gold);color:var(--bg);font-weight:600;}
+  .pill-btn.primary:hover{background:var(--gold-light);}
+  .pill-btn.dark{background:var(--navy);}
+  .pill-btn.dark:hover{background:var(--brown);}
+  .pill-btn:disabled{opacity:.45;pointer-events:none;}
+  .tab-panel{display:none;padding:26px 0 110px;}
+  .tab-panel.active{display:block;animation:fadein .25s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .section-title{font-size:30px;font-weight:600;letter-spacing:-1px;}
+  .section-sub{color:var(--brown-muted);font-size:14px;margin-top:2px;}
+  .eyebrow{font-size:11px;letter-spacing:1.2px;color:var(--brown-muted);text-transform:uppercase;font-weight:600;}
+
+  /* ---------- instrument grid ---------- */
+  .inst-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;}
+  .inst-pad{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:16px 8px;background:var(--navy);border:1px solid var(--border);border-radius:18px;transition:.08s cubic-bezier(.23,1,.32,1);touch-action:manipulation;}
+  .inst-pad:active{transform:scale(.94);box-shadow:0 0 0 2px var(--gold);}
+  .inst-pad .ic{font-size:26px;}
+  .inst-pad .nm{font-size:11.5px;font-weight:500;}
+
+  /* ---------- tracks ---------- */
+  .track{background:var(--bg);border:1px solid var(--brown);border-radius:18px;padding:14px 16px;margin-bottom:10px;}
+  .track-head{display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap;}
+  .track-icon{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .track-name{font-weight:600;font-size:13.5px;}
+  .vol-row{display:flex;align-items:center;gap:8px;margin-top:3px;}
+  .vol-row input[type=range]{flex:1;accent-color:var(--gold);}
+  .vol-val{font-family:monospace;font-size:11px;color:var(--brown-muted);width:28px;}
+  .track-actions{display:flex;gap:5px;flex-shrink:0;flex-wrap:wrap;}
+  .micro-btn{padding:7px 11px;border-radius:10px;font-size:10.5px;font-weight:600;background:var(--brown);letter-spacing:.2px;touch-action:manipulation;}
+  .micro-btn.danger{background:var(--terracotta);color:#fff;}
+  .micro-btn.on{background:var(--gold);color:var(--bg);}
+  .step-row{display:flex;gap:4px;overflow-x:auto;padding-bottom:2px;}
+  .step{width:26px;height:26px;border-radius:7px;background:var(--brown);flex-shrink:0;border:1px solid transparent;transition:.1s;touch-action:manipulation;}
+  .step.on{background:var(--gold);}
+  .step.cur{border-color:#fff;}
+  .step.beat0{box-shadow:inset 0 0 0 1px rgba(237,227,211,.35);}
+
+  /* ---------- AI master panel ---------- */
+  .master-tip{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--border);}
+  .master-tip:first-child{border-top:none;}
+
+  /* ---------- discover ---------- */
+  .post-card{overflow:hidden;}
+  .post-cover{height:160px;background:linear-gradient(135deg,var(--navy),var(--brown));display:flex;align-items:center;justify-content:center;font-size:40px;}
+  .post-body{padding:16px;}
+  .hashtags{font-size:11px;color:var(--gold);margin-top:8px;line-height:1.6;word-break:break-word;}
+  .empty-state{padding:50px 24px;text-align:center;color:var(--brown-muted);}
+
+  /* ---------- chat ---------- */
+  .chat-shell{display:flex;flex-direction:column;height:560px;}
+  .chat-msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;}
+  .bubble{max-width:80%;padding:12px 16px;border-radius:18px;font-size:14px;line-height:1.55;white-space:pre-wrap;}
+  .bubble.ai{background:var(--navy);align-self:flex-start;border-bottom-left-radius:4px;}
+  .bubble.user{background:var(--gold);color:var(--bg);align-self:flex-end;border-bottom-right-radius:4px;font-weight:500;}
+  .bubble.error{background:rgba(168,68,47,.25);border:1px solid var(--terracotta);align-self:flex-start;}
+  .bubble.thinking{color:var(--brown-muted);font-style:italic;}
+  .bubble.thinking-game{background:var(--navy);align-self:flex-start;padding:10px;max-width:90%;}
+  .thinkCanvas{display:block;width:100%;max-width:260px;height:110px;background:rgba(0,0,0,.3);border-radius:12px;cursor:pointer;touch-action:manipulation;}
+  .thinkLabel{font-size:10.5px;color:var(--brown-muted);margin-top:6px;text-align:center;}
+  .chat-quickrow{display:flex;gap:8px;padding:10px 14px;background:var(--bg-panel);border-top:1px solid var(--border);flex-wrap:wrap;}
+  .chat-quickrow button{flex:1;justify-content:center;min-width:88px;}
+  .chat-input-row{display:flex;gap:8px;padding:14px;background:var(--bg-panel);}
+  .chat-input-row input{flex:1;background:var(--navy);border:none;border-radius:16px;padding:13px 16px;font-size:14px;color:var(--cream);min-width:0;}
+  .chat-input-row input:focus{outline:2px solid var(--gold);}
+  .hum-result{text-align:center;font-size:12px;color:var(--gold);padding:0 14px 12px;}
+
+  /* ---------- earn / grow ---------- */
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .stat-box{background:var(--bg);border:1px solid var(--brown);border-radius:16px;padding:16px;text-align:center;}
+  .stat-box .num{font-size:28px;font-weight:600;color:var(--gold);font-family:'Fraunces',serif;}
+  .stat-box .lbl{font-size:10.5px;color:var(--brown-muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+  .guide-item{display:flex;gap:14px;padding:16px 0;border-top:1px solid var(--border);}
+  .guide-item:first-child{border-top:none;}
+  .guide-num{font-family:'Fraunces',serif;font-size:20px;color:var(--gold);flex-shrink:0;width:28px;}
+  .guide-item h4{margin:0 0 4px;font-size:14.5px;}
+  .guide-item p{margin:0;font-size:13px;color:var(--brown-muted);line-height:1.6;}
+  .notice{background:rgba(212,162,76,.1);border:1px solid rgba(212,162,76,.3);border-radius:16px;padding:14px 16px;font-size:12.5px;color:var(--cream);line-height:1.6;}
+  .notice b{color:var(--gold);}
+
+  /* ---------- floating voice bot ---------- */
+  .float-bot{position:fixed;right:18px;bottom:calc(70px + env(safe-area-inset-bottom));width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:25px;box-shadow:0 10px 28px rgba(0,0,0,.55);z-index:85;transition:transform .15s;}
+  .float-bot:active{transform:scale(.92);}
+  .float-bot.talking{animation:botpulse 1s infinite;}
+  @keyframes botpulse{0%,100%{box-shadow:0 10px 28px rgba(212,162,76,.4);}50%{box-shadow:0 10px 40px rgba(212,162,76,.85);}}
+  .float-panel{position:fixed;right:18px;bottom:calc(136px + env(safe-area-inset-bottom));width:330px;max-width:calc(100vw - 36px);max-height:62vh;display:none;flex-direction:column;background:var(--bg-panel);border:1px solid var(--border);border-radius:20px;overflow:hidden;z-index:85;box-shadow:0 24px 60px rgba(0,0,0,.65);}
+  .float-panel.open{display:flex;}
+  .float-head{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;background:var(--navy);font-weight:600;font-size:13.5px;}
+  .float-head .icons{display:flex;gap:4px;}
+  .float-head .icons button{width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;}
+  .float-head .icons button:hover{background:rgba(255,255,255,.08);}
+  .float-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:160px;}
+  .float-input-row{display:flex;gap:6px;padding:10px;background:var(--bg-panel);border-top:1px solid var(--border);}
+  .float-input-row input{flex:1;background:var(--navy);border:none;border-radius:14px;padding:10px 13px;font-size:13px;color:var(--cream);min-width:0;}
+  .float-mic{width:36px;height:36px;border-radius:12px;background:var(--brown);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .float-send{width:36px;height:36px;border-radius:12px;background:var(--gold);color:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+  /* ---------- modal ---------- */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:200;padding:20px;}
+  .modal-overlay.open{display:flex;}
+  .modal-card{background:var(--bg-panel);border:1px solid var(--border);border-radius:20px;padding:24px;max-width:380px;width:100%;}
+  .modal-card h3{margin:0 0 10px;font-size:18px;}
+  .modal-card p{font-size:12.5px;color:var(--brown-muted);line-height:1.6;margin:0 0 14px;}
+  .modal-card input{width:100%;background:var(--navy);border:none;border-radius:12px;padding:11px 14px;font-size:13px;color:var(--cream);margin-bottom:6px;}
+  .modal-card a{color:var(--gold);text-decoration:underline;}
+
+  /* ---------- toasts ---------- */
+  #toastHost{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:999;display:flex;flex-direction:column;gap:8px;align-items:center;}
+  .toast{background:var(--navy);border:1px solid var(--gold);color:var(--cream);padding:10px 18px;border-radius:14px;font-size:13px;opacity:0;transform:translateY(-8px);transition:.25s;box-shadow:0 10px 24px rgba(0,0,0,.4);max-width:86vw;text-align:center;}
+  .toast.show{opacity:1;transform:translateY(0);}
+  .toast.err{border-color:var(--terracotta);}
+
+  /* ---------- footer ---------- */
+  .footbar{position:fixed;bottom:0;left:0;right:0;background:var(--bg-panel);border-top:1px solid var(--border);padding:9px 18px calc(9px + env(safe-area-inset-bottom));font-size:11px;color:var(--brown-muted);z-index:40;}
+  .footbar .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+
+  @media (max-width:680px){
+    .topbar-row{height:auto;padding:10px 0;}
+    .section-title{font-size:24px;}
+    .chat-shell{height:68vh;}
+    .footbar .wrap{font-size:10px;}
+    .float-panel{right:10px;width:calc(100vw - 20px);}
+    .float-bot{right:14px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="toastHost"></div>
+
+<header class="topbar">
+  <div class="wrap topbar-row">
+    <div class="brand">
+      <div class="brand-mark">U</div>
+      <div>
+        <div class="brand-name">USTAAD AI</div>
+        <div class="brand-sub">Indian Classical Studio + Internet-Enabled Music Expert · ©SHANKH</div>
+      </div>
+    </div>
+
+    <div class="transport">
+      <button class="tbtn" id="playBtn" onclick="togglePlay()" aria-label="Play"></button>
+      <button class="tbtn ghost" onclick="stopAll()" aria-label="Stop"></button>
+      <div class="bpm-wrap">
+        <span class="bpm-num" id="bpmNum">96</span>
+        <input type="range" min="40" max="220" value="96" id="bpmSlider" style="width:84px;accent-color:var(--gold)">
+      </div>
+      <button class="rec-btn" id="recBtn" onclick="exportTake()"><span class="dot"></span><span id="recLabel">EXPORT MP3</span></button>
+    </div>
+
+    <div class="stat-pill"><span>🪔</span><span id="streakBadge">Day 1 streak</span></div>
+  </div>
+  <nav class="wrap tabs">
+    <button class="tab-btn active" data-tab="studio" onclick="switchTab('studio')">🎚️ Logic Studio</button>
+    <button class="tab-btn" data-tab="discover" onclick="switchTab('discover')">🌐 Discover</button>
+    <button class="tab-btn" data-tab="ustaad" onclick="switchTab('ustaad')">💬 Ustaad AI</button>
+    <button class="tab-btn" data-tab="earn" onclick="switchTab('earn')">📈 Grow &amp; Earn</button>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <!-- STUDIO -->
+  <section class="tab-panel active" id="panel-studio">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+      <div>
+        <h1 class="section-title">Logic Studio</h1>
+        <div class="section-sub">15 live-synthesised instruments · real 16-step sequencer · real MP3 export</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="pill-btn dark" onclick="quickVoiceMemo()">🎙️ Voice Memo</button>
+        <button class="pill-btn dark" onclick="aiMusicMaster()">✨ AI Music Master</button>
+        <button class="pill-btn primary" onclick="exportTake()">⬇ Export MP3</button>
+      </div>
+    </div>
+
+    <div style="margin-bottom:22px;">
+      <div class="eyebrow" style="margin-bottom:8px;">Indian Classical — tap to add</div>
+      <div class="inst-grid" id="instGridIndian"></div>
+      <div class="eyebrow" style="margin:16px 0 8px;">Global — tap to add</div>
+      <div class="inst-grid" id="instGridGlobal"></div>
+    </div>
+
+    <div class="glass" id="masterPanel" style="padding:20px;margin-bottom:20px;display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div style="font-weight:600;font-size:14px;">✨ AI Music Master — mix suggestions</div>
+        <button class="micro-btn" onclick="closeMasterPanel()">✕</button>
+      </div>
+      <div id="masterOverall" style="font-size:12.5px;color:var(--brown-muted);margin-bottom:6px;"></div>
+      <div id="masterTips"></div>
+      <button class="pill-btn primary" style="width:100%;justify-content:center;margin-top:12px;" onclick="applyAllMasterTips()">Apply all suggestions</button>
+    </div>
+
+    <div class="glass" style="padding:20px;margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <div style="font-weight:600;font-size:14px;" id="sessionInfo">Session · 0 tracks · 96 BPM</div>
+        <div class="eyebrow">tap steps to compose · 1 bar loop</div>
+      </div>
+      <div id="trackList"></div>
+      <div class="empty-state" id="trackEmpty" style="display:none;">No tracks yet — tap an instrument above to start composing.</div>
+    </div>
+
+    <div class="notice">
+      <b>What's real here:</b> every instrument is a live Web Audio synth (free, runs in your browser), the sequencer plays through Tone.js's scheduler, and Export MP3 renders your exact arrangement offline and encodes it to a real, shareable <code>.mp3</code> file — entirely on your device, no upload, no server cost. <b>Not yet wired:</b> sampled/recorded real instrument audio (everything is synthesised) and per-step pitch editing (each track plays one note per active step, cycling through a scale).
+    </div>
+  </section>
+
+  <!-- DISCOVER -->
+  <section class="tab-panel" id="panel-discover">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+      <div>
+        <h1 class="section-title">Discover</h1>
+        <div class="section-sub">Your personal release log, saved on this device</div>
+      </div>
+      <button class="pill-btn primary" onclick="openPostFlow()">+ Post Your Take</button>
+    </div>
+    <div class="notice" style="margin-bottom:18px;">
+      <b>Honest note:</b> there's no shared server behind this yet, so posts here are saved privately in <i>this browser only</i> — think of it as your release journal, not a public feed. Ask me to wire up a real shared Discover feed with Supabase next and I'll add it.
+    </div>
+    <div id="discoverGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;"></div>
+  </section>
+
+  <!-- USTAAD AI -->
+  <section class="tab-panel" id="panel-ustaad">
+    <div style="max-width:760px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:18px;">
+        <h1 class="section-title display" style="font-size:38px;">Ustaad AI</h1>
+        <div class="section-sub">A real, internet-connected music mentor that talks back — ragas, talas, mixing tips, and how to actually grow on Instagram</div>
+      </div>
+      <div class="glass chat-shell">
+        <div class="chat-msgs" id="chatMsgs"></div>
+        <div class="hum-result" id="humResult"></div>
+        <div class="chat-quickrow">
+          <button class="pill-btn dark" onclick="startHumDetection()">🎤 Hum to Ustaad</button>
+          <button class="pill-btn dark" id="voiceBtn" onclick="startVoiceInput()">🗣️ Speak</button>
+          <button class="pill-btn dark voiceOutToggle" onclick="toggleVoiceOut()">🔊 Voice on</button>
+          <button class="pill-btn dark" onclick="openKeyModal()">⚙️</button>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chatInput" placeholder="Ask about a raga, a taal, mixing, or how to grow on Instagram…" onkeydown="if(event.key==='Enter')sendFromInput()">
+          <button class="pill-btn primary" onclick="sendFromInput()">Send</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROW & EARN -->
+  <section class="tab-panel" id="panel-earn">
+    <div style="max-width:680px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:24px;">
+        <h1 class="section-title">Grow &amp; Earn</h1>
+        <div class="section-sub">Real stats from your sessions + a genuine path to monetizing as a creator</div>
+      </div>
+
+      <div class="stat-grid" style="margin-bottom:20px;">
+        <div class="stat-box"><div class="num" id="statTracks">0</div><div class="lbl">Tracks Made</div></div>
+        <div class="stat-box"><div class="num" id="statExports">0</div><div class="lbl">Exports</div></div>
+        <div class="stat-box"><div class="num" id="statPosts">0</div><div class="lbl">Posts Logged</div></div>
+      </div>
+
+      <div class="notice" style="margin-bottom:20px;">
+        <b>Honest note:</b> this app can't generate real money by itself — no app legitimately can. What it <i>can</i> do for free is help you make tracks, write captions, and get real AI advice on the paths below. To actually take payments later (lesson bookings, sample packs), I can wire up a free Razorpay/UPI payment link — just ask.
+      </div>
+
+      <div class="glass" style="padding:20px;margin-bottom:20px;">
+        <div class="eyebrow" style="margin-bottom:4px;">Real, free paths to earn as a music creator in India</div>
+        <div class="guide-item">
+          <div class="guide-num">01</div>
+          <div><h4>Post original audio as Reels sounds</h4><p>Use your exported MP3 takes as original audio on Instagram Reels — if it catches on, other creators using your sound drives followers and brand attention back to you.</p></div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-num">02</div>
+          <div><h4>Sell sample packs &amp; loops</h4><p>Export a few takes, bundle them, and sell to other producers via Gumroad or a simple Razorpay payment link — no distributor cut, free to set up.</p></div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-num">03</div>
+          <div><h4>Distribute to Spotify/Apple Music</h4><p>Free-tier aggregators (e.g. Routenote) take a revenue share instead of an upfront fee — good for testing if a track has streaming legs.</p></div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-num">04</div>
+          <div><h4>Offer 1:1 lessons or mixes</h4><p>Your sound engineering background is sellable — list short raga-theory or mixing sessions, paid via UPI, and promote them through your existing audience.</p></div>
+        </div>
+      </div>
+
+      <button class="pill-btn primary" style="width:100%;justify-content:center;padding:14px;" onclick="askGrowthPlan()">✨ Ask Ustaad AI for a personalised growth plan</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- Floating voice bot, available on every tab -->
+<button class="float-bot" id="floatBotBtn" onclick="toggleFloatChat()" aria-label="Open Ustaad AI">🎙️</button>
+<div class="float-panel" id="floatPanel">
+  <div class="float-head">
+    <span>💬 Ustaad AI</span>
+    <div class="icons">
+      <button class="voiceOutToggle" onclick="toggleVoiceOut()" id="floatVoiceIcon">🔊</button>
+      <button onclick="openKeyModal()">⚙️</button>
+      <button onclick="toggleFloatChat()">✕</button>
+    </div>
+  </div>
+  <div class="float-msgs" id="floatMsgs"></div>
+  <div class="float-input-row">
+    <button class="float-mic" onclick="startVoiceInput()">🎤</button>
+    <input type="text" id="floatInput" placeholder="Ask Ustaad…" onkeydown="if(event.key==='Enter')sendFromFloatInput()">
+    <button class="float-send" onclick="sendFromFloatInput()">➤</button>
+  </div>
+</div>
+
+<!-- API key modal -->
+<div class="modal-overlay" id="keyModal">
+  <div class="modal-card">
+    <h3>Connect Ustaad AI</h3>
+    <p>Paste a free Gemini API key to enable real AI chat, mastering tips, and captions — get one free, no card needed, at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>. It's saved only in this browser, never sent anywhere except directly to Google's API.</p>
+    <input type="text" id="keyInput" placeholder="AIza...">
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="pill-btn dark" style="flex:1;justify-content:center;" onclick="closeKeyModal()">Cancel</button>
+      <button class="pill-btn primary" style="flex:1;justify-content:center;" onclick="saveKeyAndRetry()">Save &amp; Continue</button>
+    </div>
+  </div>
+</div>
+
+<div class="footbar">
+  <div class="wrap">
+    <span>Free to run · synthesis, mastering &amp; MP3 export all happen on your device</span>
+    <span>©SHANKH · USTAAD AI 2026</span>
+  </div>
+</div>
+
+<script>
+/* ============================== CONSTANTS ============================== */
+const SCALE = ['C4','D4','E4','F4','G4','A4','B4','C5'];
+const STEPS = 16;
+const COLORS = ['#D4A24C','#F4D35E','#8B6F47','#A8442F','#1E2A4A'];
+
+const INSTRUMENTS = [
+  {id:'sitar', name:'Sitar', icon:'🎸', cat:'indian'},
+  {id:'tabla', name:'Tabla', icon:'🥁', cat:'indian'},
+  {id:'tanpura', name:'Tanpura', icon:'🪕', cat:'indian'},
+  {id:'sarod', name:'Sarod', icon:'🎻', cat:'indian'},
+  {id:'bansuri', name:'Bansuri', icon:'🪈', cat:'indian'},
+  {id:'veena', name:'Veena', icon:'🎼', cat:'indian'},
+  {id:'santoor', name:'Santoor', icon:'🎹', cat:'indian'},
+  {id:'mridangam', name:'Mridangam', icon:'🥁', cat:'indian'},
+  {id:'harmonium', name:'Harmonium', icon:'🎹', cat:'indian'},
+  {id:'shehnai', name:'Shehnai', icon:'🎺', cat:'indian'},
+  {id:'piano', name:'Piano', icon:'🎹', cat:'global'},
+  {id:'guitar', name:'Guitar', icon:'🎸', cat:'global'},
+  {id:'violin', name:'Violin', icon:'🎻', cat:'global'},
+  {id:'synthlead', name:'Synth Lead', icon:'🌊', cat:'global'},
+  {id:'drums', name:'Drum Hit', icon:'🥁', cat:'global'},
+];
+const instById = id => INSTRUMENTS.find(i=>i.id===id);
+
+const DEFAULT_SYSTEM_PROMPT = `You are Ustaad AI, the in-app voice-and-text music mentor inside USTAAD AI, a free Indian-classical-and-global music studio built by Shankh, a sound engineer and creative director from Kolkata, India.
+
+You are a genuine expert in:
+- Indian classical music: ragas (correct aroha/avaroha, time-of-day, mood), talas (correct beat counts), and instruments (sitar, tabla, tanpura, sarod, bansuri, veena, santoor, mridangam, harmonium, shehnai).
+- Global music theory, composition, arrangement, and mixing/production tips.
+- Practical, realistic advice on growing an audience and earning money as an independent musician/creator on Instagram, YouTube, and similar platforms in India.
+
+Voice: warm, encouraging, like a real Ustaad (master/mentor) — confident and specific, not generic. Occasional Hindi/Urdu music term is fine (e.g. "waah", "shabaash") but don't overdo it. Your replies may be read aloud by text-to-speech, so write in natural spoken sentences — avoid markdown, bullet points, asterisks, or emoji.
+
+Rules:
+- Be accurate about ragas and talas — never invent a fictional raga or wrong beat count. If unsure, say so plainly.
+- Never claim the app can generate, guarantee, or transfer real money.
+- Keep replies concise (roughly 3–6 sentences) unless the person clearly wants depth.
+- If asked something far outside music or creative careers, gently steer back to what you're actually useful for.`;
+
+/* ============================== STATE ============================== */
+let state = {
+  tab: 'studio',
+  bpm: 96,
+  isPlaying: false,
+  isRendering: false,
+  currentStep: -1,
+  tracks: [
+    mkTrack('sitar', [0,4,8,12], 0),
+    mkTrack('tabla', [0,2,4,6,8,10,12,14], 1),
+    mkTrack('tanpura', [0,8], 2),
+  ],
+  chat: [{role:'assistant', content:"Namaste! I'm Ustaad AI — ask me about ragas, talas, mixing your track, or how to actually grow as a music creator on Instagram. Tap the mic to talk to me out loud."}],
+  isListening: false,
+  humResult: '',
+  discover: [],
+  stats: {tracks:0, exports:0, posts:0, firstVisit:null, lastVisit:null, streak:1},
+  lastBlob: null,
+  lastBlobUrl: null,
+  masterSuggestions: null,
+  pendingRetry: null,
+};
+
+function mkTrack(instrumentId, activeSteps, colorIdx){
+  const steps = new Array(STEPS).fill(false);
+  activeSteps.forEach(i => { if(i<STEPS) steps[i]=true; });
+  return {
+    id: 't'+Math.random().toString(36).slice(2,9),
+    instrument: instrumentId,
+    color: COLORS[colorIdx % COLORS.length],
+    volume: 75,
+    muted: false,
+    solo: false,
+    steps,
+  };
+}
+
+/* ============================== PERSISTENCE ============================== */
+function loadPersisted(){
+  try{ state.discover = JSON.parse(localStorage.getItem('ustaad_discover')||'[]'); }catch(e){}
+  try{
+    const s = JSON.parse(localStorage.getItem('ustaad_stats')||'null');
+    const today = new Date().toDateString();
+    if(s){
+      let streak = s.streak||1;
+      if(s.lastVisit && s.lastVisit !== today){
+        const diffDays = Math.round((new Date(today) - new Date(s.lastVisit))/86400000);
+        streak = diffDays===1 ? streak+1 : 1;
+      }
+      state.stats = {...s, lastVisit: today, firstVisit: s.firstVisit||today, streak};
+    } else {
+      state.stats = {tracks:0, exports:0, posts:0, firstVisit:today, lastVisit:today, streak:1};
+    }
+    saveStats();
+  }catch(e){}
+}
+function saveDiscover(){ localStorage.setItem('ustaad_discover', JSON.stringify(state.discover)); }
+function saveStats(){ localStorage.setItem('ustaad_stats', JSON.stringify(state.stats)); }
+
+/* ============================== TOAST ============================== */
+function toast(msg, isErr){
+  const host = document.getElementById('toastHost');
+  const el = document.createElement('div');
+  el.className = 'toast' + (isErr ? ' err' : '');
+  el.textContent = msg;
+  host.appendChild(el);
+  requestAnimationFrame(()=>el.classList.add('show'));
+  setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.remove(),300); }, 3600);
+}
+function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ============================== TABS ============================== */
+function switchTab(tab){
+  state.tab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  if(tab==='discover') renderDiscover();
+  if(tab==='earn') renderStats();
+  if(tab==='ustaad') document.getElementById('chatInput').focus();
+}
+
+/* ============================== GEMINI (dual path: server, then client key) ============================== */
+let serverWorks = null; // null = untested, true/false = known
+
+async function askGemini(messages, systemOverride){
+  if(serverWorks !== false){
+    try{
+      const res = await fetch('/api/chat', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({messages, system: systemOverride})
+      });
+      const ct = res.headers.get('content-type') || '';
+      if(res.ok && ct.includes('application/json')){
+        const data = await res.json();
+        if(data && data.reply){ serverWorks = true; return data.reply; }
+      }
+      serverWorks = false;
+    }catch(e){ serverWorks = false; }
+  }
+  const key = getSavedKey();
+  if(!key){ const err = new Error('Connect a free Gemini API key to talk to Ustaad AI.'); err.code='NEED_KEY'; throw err; }
+  return await callGeminiDirect(messages, key, systemOverride);
+}
+
+async function callGeminiDirect(messages, key, systemOverride){
+  const contents = messages
+    .filter(m => m && typeof m.content === 'string' && m.content.trim())
+    .map(m => ({ role: m.role==='assistant' ? 'model' : 'user', parts:[{text:m.content}] }));
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(key)}`, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      contents,
+      systemInstruction: { parts:[{text: systemOverride || DEFAULT_SYSTEM_PROMPT}] },
+      generationConfig: { temperature:.9, maxOutputTokens:700 }
+    })
+  });
+  const data = await res.json();
+  if(!res.ok){
+    const msg = data?.error?.message || `Gemini error (${res.status})`;
+    if(res.status===400 || res.status===403) localStorage.removeItem('ustaad_gemini_key');
+    throw new Error(msg);
+  }
+  const text = data?.candidates?.[0]?.content?.parts?.map(p=>p.text).join('').trim();
+  return text || "I couldn't form a reply just now — try again.";
+}
+
+/* generic helper for one-off AI tasks (pattern suggest, captions, mastering) with key-modal retry */
+function withGemini(promptMessages, onSuccess){
+  askGemini(promptMessages).then(onSuccess).catch(err=>{
+    if(err.code==='NEED_KEY'){
+      state.pendingRetry = ()=>withGemini(promptMessages, onSuccess);
+      openKeyModal();
+    } else {
+      toast('Ustaad AI error: '+err.message, true);
+    }
+  });
+}
+
+/* ============================== API KEY MODAL ============================== */
+function getSavedKey(){ return localStorage.getItem('ustaad_gemini_key') || ''; }
+function openKeyModal(){
+  document.getElementById('keyModal').classList.add('open');
+  document.getElementById('keyInput').value = getSavedKey();
+  setTimeout(()=>document.getElementById('keyInput').focus(), 50);
+}
+function closeKeyModal(){ document.getElementById('keyModal').classList.remove('open'); }
+function saveKeyAndRetry(){
+  const v = document.getElementById('keyInput').value.trim();
+  if(!v){ toast('Paste a key first, or tap Cancel.', true); return; }
+  localStorage.setItem('ustaad_gemini_key', v);
+  closeKeyModal();
+  toast('Key saved — Ustaad AI is connected ✓');
+  const retry = state.pendingRetry;
+  state.pendingRetry = null;
+  if(retry) retry();
+}
+
+/* ============================== CHAT ============================== */
+let gameLoopIds = [];
+function stopThinkingGames(){
+  gameLoopIds.forEach(id=>cancelAnimationFrame(id));
+  gameLoopIds = [];
+}
+function renderChat(){
+  const html = state.chat.map(m=>{
+    if(m.thinking){
+      return `<div class="bubble ai thinking-game">
+        <canvas class="thinkCanvas" width="260" height="110"></canvas>
+        <div class="thinkLabel">Ustaad is composing a reply — tap the falling notes while you wait 🎵</div>
+      </div>`;
+    }
+    const cls = m.role==='user' ? 'user' : (m.error ? 'error' : 'ai');
+    return `<div class="bubble ${cls}">${escapeHtml(m.content)}</div>`;
+  }).join('');
+  stopThinkingGames();
+  ['chatMsgs','floatMsgs'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ el.innerHTML = html; el.scrollTop = el.scrollHeight; }
+  });
+  document.querySelectorAll('.thinkCanvas').forEach(canvas=>startNoteCatcherGame(canvas));
+}
+
+/* ---- mini "catch the note" game shown only during AI wait time, auto on/off ---- */
+function startNoteCatcherGame(canvas){
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  const symbols = ['♪','♫','♬'];
+  let notes = [];
+  let score = 0;
+  let spawnTimer = 0;
+  let stopped = false;
+
+  function spawnNote(){
+    notes.push({
+      x: 18 + Math.random()*(w-36),
+      y: -12,
+      speed: 0.9 + Math.random()*0.9,
+      sym: symbols[Math.floor(Math.random()*symbols.length)],
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = 'rgba(212,162,76,.07)';
+    ctx.fillRect(0,0,w,h);
+    ctx.font = '22px sans-serif';
+    ctx.fillStyle = '#F4D35E';
+    notes.forEach(n=>ctx.fillText(n.sym, n.x, n.y));
+    ctx.font = '11px monospace';
+    ctx.fillStyle = '#8B6F47';
+    ctx.fillText('Score: '+score, 8, h-8);
+  }
+  function tick(){
+    if(stopped) return;
+    spawnTimer++;
+    if(spawnTimer > 40){ spawnNote(); spawnTimer = 0; }
+    notes.forEach(n=>{ n.y += n.speed*4; });
+    notes = notes.filter(n=>n.y < h+20);
+    draw();
+    const id = requestAnimationFrame(tick);
+    gameLoopIds.push(id);
+  }
+  const catchPitches = ['C5','D5','E5','G5','A5'];
+  function catchAt(mx,my){
+    for(let i=0;i<notes.length;i++){
+      if(Math.hypot(notes[i].x-mx, notes[i].y-my) < 24){
+        notes.splice(i,1);
+        score++;
+        try{
+          const pitch = catchPitches[Math.floor(Math.random()*catchPitches.length)];
+          ensureSynth('santoor').triggerAttackRelease(pitch, '16n', undefined, 0.5);
+        }catch(e){}
+        break;
+      }
+    }
+  }
+  canvas.addEventListener('click', e=>{
+    const r = canvas.getBoundingClientRect();
+    catchAt((e.clientX-r.left)*(w/r.width), (e.clientY-r.top)*(h/r.height));
+  });
+  canvas.addEventListener('touchstart', e=>{
+    e.preventDefault();
+    const t = e.touches[0];
+    const r = canvas.getBoundingClientRect();
+    catchAt((t.clientX-r.left)*(w/r.width), (t.clientY-r.top)*(h/r.height));
+  }, {passive:false});
+  canvas.addEventListener('DOMNodeRemoved', ()=>{ stopped=true; });
+  tick();
+}
+function sendFromInput(){
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value='';
+  sendToUstaad(text);
+}
+function sendFromFloatInput(){
+  const input = document.getElementById('floatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value='';
+  sendToUstaad(text);
+}
+function sendToUstaad(text){
+  if(!text || !text.trim()) return;
+  state.chat.push({role:'user', content:text});
+  renderChat();
+  fetchAndShowReply();
+}
+async function fetchAndShowReply(){
+  state.chat.push({role:'assistant', content:'Ustaad is thinking…', thinking:true});
+  renderChat();
+  try{
+    const history = state.chat.filter(m=>!m.thinking).map(m=>({role:m.role, content:m.content}));
+    const reply = await askGemini(history);
+    state.chat.pop();
+    state.chat.push({role:'assistant', content:reply});
+    renderChat();
+    speak(reply);
+  }catch(err){
+    state.chat.pop();
+    renderChat();
+    if(err.code==='NEED_KEY'){
+      state.pendingRetry = fetchAndShowReply;
+      openKeyModal();
+    } else {
+      state.chat.push({role:'assistant', content:`⚠️ ${err.message}`, error:true});
+      renderChat();
+    }
+  }
+}
+function askGrowthPlan(){
+  switchTab('ustaad');
+  setTimeout(()=>{
+    sendToUstaad("Give me a personalised, practical 30-day growth plan to build an audience and start earning as an Indian classical / fusion musician posting on Instagram and YouTube — assume I'm starting from zero followers and have no budget for ads.");
+  }, 150);
+}
+
+/* ---- floating bot panel ---- */
+function toggleFloatChat(){
+  document.getElementById('floatPanel').classList.toggle('open');
+  if(document.getElementById('floatPanel').classList.contains('open')){
+    setTimeout(()=>document.getElementById('floatInput').focus(), 50);
+  }
+}
+
+/* ---- realistic voice output (TTS) ---- */
+let voiceOutEnabled = true;
+try{ voiceOutEnabled = JSON.parse(localStorage.getItem('ustaad_voice_out') ?? 'true'); }catch(e){}
+function updateVoiceOutUI(){
+  document.querySelectorAll('.voiceOutToggle').forEach(btn=>{
+    if(btn.id==='floatVoiceIcon'){ btn.textContent = voiceOutEnabled ? '🔊' : '🔇'; }
+    else { btn.textContent = voiceOutEnabled ? '🔊 Voice on' : '🔇 Voice off'; }
+  });
+}
+function toggleVoiceOut(){
+  voiceOutEnabled = !voiceOutEnabled;
+  localStorage.setItem('ustaad_voice_out', JSON.stringify(voiceOutEnabled));
+  updateVoiceOutUI();
+  if(!voiceOutEnabled && 'speechSynthesis' in window) speechSynthesis.cancel();
+  toast(voiceOutEnabled ? 'Ustaad AI will speak replies aloud' : 'Voice replies muted');
+}
+function speak(text){
+  if(!voiceOutEnabled || !('speechSynthesis' in window)) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    const voices = speechSynthesis.getVoices();
+    const pick = voices.find(v=>/en-IN/i.test(v.lang)) || voices.find(v=>/^en/i.test(v.lang)) || voices[0];
+    if(pick) u.voice = pick;
+    u.rate = 0.98; u.pitch = 1.0;
+    const bot = document.getElementById('floatBotBtn');
+    u.onstart = ()=>bot.classList.add('talking');
+    u.onend = ()=>bot.classList.remove('talking');
+    u.onerror = ()=>bot.classList.remove('talking');
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* ---- voice input (Web Speech API, real STT) ---- */
+function startVoiceInput(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ toast('Voice input needs Chrome (desktop or Android) — not supported in this browser.', true); return; }
+  const rec = new SR();
+  rec.lang = 'en-IN';
+  rec.interimResults = false;
+  state.isListening = true;
+  document.getElementById('voiceBtn').textContent = '🔴 Listening…';
+  rec.onresult = e=>{ sendToUstaad(e.results[0][0].transcript); };
+  rec.onerror = ()=>{ toast('Could not hear you clearly — try again.', true); };
+  rec.onend = ()=>{ state.isListening=false; document.getElementById('voiceBtn').textContent='🗣️ Speak'; };
+  rec.start();
+}
+
+/* ---- hum-to-Ustaad: real pitch detection (autocorrelation) ---- */
+function autoCorrelate(buf, sampleRate){
+  const SIZE = buf.length;
+  let rms = 0;
+  for(let i=0;i<SIZE;i++) rms += buf[i]*buf[i];
+  rms = Math.sqrt(rms/SIZE);
+  if(rms < 0.01) return -1;
+  let r1=0, r2=SIZE-1, thres=0.2;
+  for(let i=0;i<SIZE/2;i++) if(Math.abs(buf[i])<thres){ r1=i; break; }
+  for(let i=1;i<SIZE/2;i++) if(Math.abs(buf[SIZE-i])<thres){ r2=SIZE-i; break; }
+  const trimmed = buf.slice(r1,r2);
+  const newSize = trimmed.length;
+  const c = new Array(newSize).fill(0);
+  for(let i=0;i<newSize;i++) for(let j=0;j<newSize-i;j++) c[i] += trimmed[j]*trimmed[j+i];
+  let d=0; while(c[d]>c[d+1]) d++;
+  let maxval=-1, maxpos=-1;
+  for(let i=d;i<newSize;i++){ if(c[i]>maxval){ maxval=c[i]; maxpos=i; } }
+  let T0 = maxpos;
+  if(T0<=0) return -1;
+  return sampleRate/T0;
+}
+function freqToNoteName(freq){
+  if(freq<=0) return null;
+  const noteNames = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  const midi = Math.round(69 + 12*Math.log2(freq/440));
+  if(midi<0||midi>127) return null;
+  return noteNames[midi%12];
+}
+async function startHumDetection(){
+  document.getElementById('humResult').textContent = '';
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const src = ctx.createMediaStreamSource(stream);
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 2048;
+    src.connect(analyser);
+    const buf = new Float32Array(analyser.fftSize);
+    const detected = [];
+    toast('Listening — hum or sing for 4 seconds 🎤');
+    const iv = setInterval(()=>{
+      analyser.getFloatTimeDomainData(buf);
+      const freq = autoCorrelate(buf, ctx.sampleRate);
+      const note = freqToNoteName(freq);
+      if(note) detected.push(note);
+    }, 180);
+    await new Promise(r=>setTimeout(r,4000));
+    clearInterval(iv);
+    stream.getTracks().forEach(t=>t.stop());
+    ctx.close();
+    const compact = [];
+    detected.forEach(n=>{ if(compact[compact.length-1]!==n) compact.push(n); });
+    if(compact.length===0){
+      document.getElementById('humResult').textContent = 'Could not detect a clear pitch — try humming louder, closer to the mic.';
+      toast('No clear pitch detected.', true);
+      return;
+    }
+    const display = compact.slice(0,12).join(' – ');
+    document.getElementById('humResult').textContent = `Detected notes: ${display}`;
+    switchTab('ustaad');
+    sendToUstaad(`I just hummed this melody (detected pitches, chromatic notes): ${compact.slice(0,16).join(' ')}. What raga or scale might this fit, and how should I develop it into a track?`);
+  }catch(e){
+    toast('Microphone access needed for Hum to Ustaad.', true);
+  }
+}
+
+/* ============================== AUDIO ENGINE (live preview) ============================== */
+let synths = {};
+
+function createSynth(id){
+  switch(id){
+    case 'sitar': return new Tone.PolySynth(Tone.Synth, {oscillator:{type:'sawtooth'}, envelope:{attack:.01, decay:1.2, sustain:.5, release:1.8}}).toDestination();
+    case 'tabla': return new Tone.MembraneSynth({pitchDecay:.05, octaves:4, oscillator:{type:'sine'}, envelope:{attack:.001, decay:.35, sustain:0, release:1}}).toDestination();
+    case 'tanpura': return new Tone.PolySynth(Tone.Synth, {oscillator:{type:'triangle'}, envelope:{attack:.6, decay:2, sustain:.85, release:2.5}}).toDestination();
+    case 'sarod': return new Tone.PolySynth(Tone.Synth, {oscillator:{type:'sawtooth'}, envelope:{attack:.005, decay:1.5, sustain:.4, release:2}}).toDestination();
+    case 'bansuri': return new Tone.Synth({oscillator:{type:'sine'}, envelope:{attack:.25, decay:.9, sustain:.65, release:1.4}}).toDestination();
+    case 'veena': return new Tone.PolySynth(Tone.Synth, {oscillator:{type:'sawtooth'}, envelope:{attack:.02, decay:1.8, sustain:.45, release:2.4}}).toDestination();
+    case 'santoor': return new Tone.PolySynth(Tone.Synth, {oscillator:{type:'triangle'}, envelope:{attack:.005, decay:.8, sustain:.25, release:1.1}}).toDestination();
+    case 'mridangam': return new Tone.MembraneSynth({pitchDecay:.08, octaves:3, oscillator:{type:'sine'}, envelope:{attack:.001, decay:.5, sustain:0, release:1.3}}).toDestination();
+    case 'harmonium': return new Tone.PolySynth(Tone.Synth, {oscillator:{type:'sawtooth'}, envelope:{attack:.04, decay:1.1, sustain:.75, release:1.5}}).toDestination();
+    case 'shehnai': return new Tone.Synth({oscillator:{type:'sawtooth'}, envelope:{attack:.02, decay:.7, sustain:.55, release:1.2}}).toDestination();
+    case 'piano': return new Tone.PolySynth(Tone.Synth, {oscillator:{type:'triangle'}, envelope:{attack:.004, decay:.5, sustain:.25, release:1}}).toDestination();
+    case 'guitar': return new Tone.PluckSynth({attackNoise:1, dampening:3500, resonance:.9}).toDestination();
+    case 'violin': return new Tone.PolySynth(Tone.Synth, {oscillator:{type:'sawtooth'}, envelope:{attack:.28, decay:.4, sustain:.75, release:1.4}}).toDestination();
+    case 'synthlead': return new Tone.PolySynth(Tone.Synth, {oscillator:{type:'square'}, envelope:{attack:.02, decay:.2, sustain:.55, release:.35}}).toDestination();
+    case 'drums': return new Tone.NoiseSynth({noise:{type:'white'}, envelope:{attack:.001, decay:.18, sustain:0, release:.08}}).toDestination();
+    default: return new Tone.Synth().toDestination();
+  }
+}
+function ensureSynth(id){
+  if(!synths[id]) synths[id] = createSynth(id);
+  return synths[id];
+}
+function triggerInstrument(id, note, time, vel){
+  const s = ensureSynth(id);
+  try{
+    if(id==='guitar') s.triggerAttack(note, time);
+    else if(id==='drums') s.triggerAttackRelease('8n', time, vel);
+    else s.triggerAttackRelease(note, '8n', time, vel);
+  }catch(e){}
+}
+function previewInstrument(id){
+  Tone.start().then(()=>{ triggerInstrument(id, 'C4', Tone.now(), .8); });
+}
+
+let transportEventId = null;
+function startLoop(){
+  Tone.Transport.bpm.value = state.bpm;
+  let step = 0;
+  transportEventId = Tone.Transport.scheduleRepeat((time)=>{
+    const idx = step % STEPS;
+    const anySolo = state.tracks.some(t=>t.solo);
+    state.tracks.forEach(track=>{
+      const audible = !track.muted && (!anySolo || track.solo);
+      if(audible && track.steps[idx]){
+        const note = SCALE[idx % SCALE.length];
+        triggerInstrument(track.instrument, note, time, track.volume/100);
+      }
+    });
+    Tone.Draw.schedule(()=>{ state.currentStep = idx; paintPlayhead(); }, time);
+    step++;
+  }, '16n');
+  Tone.Transport.start();
+}
+function stopLoop(){
+  Tone.Transport.stop();
+  Tone.Transport.cancel();
+  transportEventId = null;
+  state.currentStep = -1;
+  paintPlayhead();
+}
+async function togglePlay(){
+  if(!state.isPlaying){
+    await Tone.start();
+    Tone.Transport.position = 0;
+    startLoop();
+    state.isPlaying = true;
+  } else {
+    stopLoop();
+    state.isPlaying = false;
+  }
+  paintTransport();
+}
+function stopAll(){
+  stopLoop();
+  state.isPlaying = false;
+  paintTransport();
+}
+function setBpm(v){
+  state.bpm = parseInt(v);
+  document.getElementById('bpmNum').textContent = state.bpm;
+  if(state.isPlaying) Tone.Transport.bpm.value = state.bpm;
+  document.getElementById('sessionInfo').textContent = `Session · ${state.tracks.length} tracks · ${state.bpm} BPM`;
+}
+
+/* ============================== REAL MP3 EXPORT (offline render + lamejs) ============================== */
+function floatTo16BitPCM(input){
+  const out = new Int16Array(input.length);
+  for(let i=0;i<input.length;i++){
+    const s = Math.max(-1, Math.min(1, input[i]));
+    out[i] = s<0 ? s*0x8000 : s*0x7FFF;
+  }
+  return out;
+}
+function bufferToMp3(audioBuffer){
+  const channels = Math.min(2, audioBuffer.numberOfChannels);
+  const sampleRate = audioBuffer.sampleRate;
+  const encoder = new lamejs.Mp3Encoder(channels, sampleRate, 128);
+  const left = floatTo16BitPCM(audioBuffer.getChannelData(0));
+  const right = channels>1 ? floatTo16BitPCM(audioBuffer.getChannelData(1)) : null;
+  const blockSize = 1152;
+  const data = [];
+  for(let i=0;i<left.length;i+=blockSize){
+    const lchunk = left.subarray(i, i+blockSize);
+    let buf;
+    if(channels>1) buf = encoder.encodeBuffer(lchunk, right.subarray(i, i+blockSize));
+    else buf = encoder.encodeBuffer(lchunk);
+    if(buf.length>0) data.push(buf);
+  }
+  const last = encoder.flush();
+  if(last.length>0) data.push(last);
+  return new Blob(data, {type:'audio/mpeg'});
+}
+async function renderSequenceOffline(loops){
+  const barSeconds = (60/state.bpm) * 4; // 16 sixteenth-notes = 4 beats
+  const totalSeconds = barSeconds*loops + 0.5;
+  const toneBuffer = await Tone.Offline(()=>{
+    const offlineSynths = {};
+    const ensure = id => { if(!offlineSynths[id]) offlineSynths[id] = createSynth(id); return offlineSynths[id]; };
+    const anySolo = state.tracks.some(tr=>tr.solo);
+    for(let loop=0; loop<loops; loop++){
+      for(let stepIdx=0; stepIdx<STEPS; stepIdx++){
+        const t = loop*barSeconds + stepIdx*(barSeconds/STEPS);
+        state.tracks.forEach(track=>{
+          const audible = !track.muted && (!anySolo || track.solo);
+          if(audible && track.steps[stepIdx]){
+            const note = SCALE[stepIdx % SCALE.length];
+            const synth = ensure(track.instrument);
+            try{
+              if(track.instrument==='guitar') synth.triggerAttack(note, t);
+              else if(track.instrument==='drums') synth.triggerAttackRelease('8n', t, track.volume/100);
+              else synth.triggerAttackRelease(note, '8n', t, track.volume/100);
+            }catch(e){}
+          }
+        });
+      }
+    }
+  }, totalSeconds);
+  return toneBuffer.get();
+}
+async function exportTake(){
+  if(state.tracks.length===0){ toast('Add a few tracks first.', true); return; }
+  if(state.isRendering) return;
+  state.isRendering = true;
+  paintTransport();
+  toast('Rendering your take to MP3…');
+  try{
+    const audioBuffer = await renderSequenceOffline(2);
+    const blob = bufferToMp3(audioBuffer);
+    if(state.lastBlobUrl) URL.revokeObjectURL(state.lastBlobUrl);
+    state.lastBlob = blob;
+    state.lastBlobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = state.lastBlobUrl;
+    a.download = `USTAAD_${Date.now()}.mp3`;
+    document.body.appendChild(a); a.click(); a.remove();
+    state.stats.exports++; saveStats(); renderStats();
+    toast('Real MP3 exported & downloaded ✓');
+  }catch(e){
+    toast('Export failed: '+(e.message||'unknown error'), true);
+  }
+  state.isRendering = false;
+  paintTransport();
+}
+
+/* ---- voice memo: real mic capture, converted to a real MP3 ---- */
+async function quickVoiceMemo(){
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    const mr = new MediaRecorder(stream);
+    const chunks = [];
+    mr.ondataavailable = e=>chunks.push(e.data);
+    mr.onstop = async ()=>{
+      stream.getTracks().forEach(t=>t.stop());
+      const webmBlob = new Blob(chunks, {type:'audio/webm'});
+      toast('Converting memo to MP3…');
+      try{
+        const arrayBuf = await webmBlob.arrayBuffer();
+        const ctx = new (window.AudioContext||window.webkitAudioContext)();
+        const audioBuffer = await ctx.decodeAudioData(arrayBuf);
+        const mp3Blob = bufferToMp3(audioBuffer);
+        ctx.close();
+        const url = URL.createObjectURL(mp3Blob);
+        const a = document.createElement('a');
+        a.href=url; a.download=`USTAAD_memo_${Date.now()}.mp3`; a.click();
+        toast('Voice memo saved as MP3 ✓');
+      }catch(e){
+        const url = URL.createObjectURL(webmBlob);
+        const a = document.createElement('a'); a.href=url; a.download=`USTAAD_memo_${Date.now()}.webm`; a.click();
+        toast('Saved as WebM — MP3 conversion unavailable on this browser.', true);
+      }
+    };
+    mr.start();
+    toast('Recording voice memo — 8 seconds…');
+    setTimeout(()=>mr.stop(), 8000);
+  }catch(e){
+    toast('Microphone access needed for voice memo.', true);
+  }
+}
+
+/* ============================== AI MUSIC MASTER ============================== */
+function aiMusicMaster(){
+  if(state.tracks.length===0){ toast('Add some tracks first.', true); return; }
+  toast('Ustaad is listening to your mix…');
+  const summary = state.tracks.map(t=>`${instById(t.instrument).name} (volume ${t.volume})`).join(', ');
+  const prompt = `You are mastering a home-studio mix at ${state.bpm} BPM. Current tracks and volumes (0-100): ${summary}. Suggest a better volume balance for each track and one overall mix tip. Respond with ONLY raw JSON, no markdown: {"overall":"one sentence","tips":[{"instrument":"Sitar","volume":70,"why":"short reason, under 12 words"}]}`;
+  withGemini([{role:'user', content:prompt}], reply=>{
+    try{
+      const cleaned = reply.replace(/```json|```/g,'').trim();
+      const parsed = JSON.parse(cleaned);
+      state.masterSuggestions = parsed;
+      renderMasterPanel();
+    }catch(e){ toast('Could not parse mastering suggestions — try again.', true); }
+  });
+}
+function renderMasterPanel(){
+  const s = state.masterSuggestions;
+  if(!s) return;
+  document.getElementById('masterOverall').textContent = s.overall || '';
+  document.getElementById('masterTips').innerHTML = (s.tips||[]).map((tip,i)=>`
+    <div class="master-tip">
+      <div><div style="font-size:13px;font-weight:500;">${escapeHtml(tip.instrument)} → ${escapeHtml(String(tip.volume))}</div><div style="font-size:11.5px;color:var(--brown-muted);">${escapeHtml(tip.why||'')}</div></div>
+      <button class="micro-btn on" onclick="applyMasterTip(${i})">Apply</button>
+    </div>`).join('');
+  document.getElementById('masterPanel').style.display='block';
+}
+function applyMasterTip(i){
+  const tip = state.masterSuggestions.tips[i];
+  const track = state.tracks.find(t=>instById(t.instrument).name.toLowerCase()===String(tip.instrument).toLowerCase());
+  if(track){
+    track.volume = Math.max(0, Math.min(100, Math.round(Number(tip.volume)||track.volume)));
+    renderTracks();
+    toast(`${tip.instrument} set to ${track.volume}`);
+  } else {
+    toast(`No matching track for ${tip.instrument}`, true);
+  }
+}
+function applyAllMasterTips(){
+  (state.masterSuggestions?.tips||[]).forEach((_,i)=>applyMasterTip(i));
+  closeMasterPanel();
+}
+function closeMasterPanel(){ document.getElementById('masterPanel').style.display='none'; }
+
+/* ============================== TRACKS UI ============================== */
+function addTrack(instId){
+  const idx = state.tracks.length;
+  const t = mkTrack(instId, [], idx);
+  [0,4,8,12].forEach(i=>{ if(Math.random()>0.3) t.steps[i]=true; });
+  state.tracks.push(t);
+  state.stats.tracks++; saveStats();
+  renderTracks();
+  toast(`${instById(instId).name} added`);
+}
+function removeTrack(id){
+  state.tracks = state.tracks.filter(t=>t.id!==id);
+  renderTracks();
+}
+function updateTrack(id, patch){
+  const t = state.tracks.find(t=>t.id===id);
+  Object.assign(t, patch);
+  renderTracks();
+}
+function toggleStep(trackId, stepIdx){
+  const t = state.tracks.find(t=>t.id===trackId);
+  t.steps[stepIdx] = !t.steps[stepIdx];
+  renderTracks();
+}
+function shufflePattern(id){
+  const t = state.tracks.find(t=>t.id===id);
+  t.steps = new Array(STEPS).fill(false);
+  const count = 3 + Math.floor(Math.random()*5);
+  while(t.steps.filter(Boolean).length < count){
+    t.steps[Math.floor(Math.random()*STEPS)] = true;
+  }
+  renderTracks();
+  toast('Pattern shuffled');
+}
+function aiSuggestPattern(id){
+  const t = state.tracks.find(t=>t.id===id);
+  const others = state.tracks.filter(x=>x.id!==id).map(x=>instById(x.instrument).name).join(', ') || 'none yet';
+  const prompt = `Suggest a 16-step rhythmic pattern for a ${instById(t.instrument).name} track in a song at ${state.bpm} BPM. Other instruments playing: ${others}. Respond with ONLY a JSON array of 3 to 8 integers between 0 and 15 (the active step indices), nothing else — no markdown, no explanation.`;
+  toast('Asking Ustaad AI for a pattern…');
+  withGemini([{role:'user', content:prompt}], reply=>{
+    try{
+      const cleaned = reply.replace(/```json|```/g,'').trim();
+      const arr = JSON.parse(cleaned);
+      if(Array.isArray(arr)){
+        t.steps = new Array(STEPS).fill(false);
+        arr.forEach(n=>{ if(Number.isInteger(n) && n>=0 && n<STEPS) t.steps[n]=true; });
+        renderTracks();
+        toast('AI pattern applied ✓');
+      }
+    }catch(e){ toast('Could not parse AI pattern — try again.', true); }
+  });
+}
+
+function renderTracks(){
+  document.getElementById('sessionInfo').textContent = `Session · ${state.tracks.length} tracks · ${state.bpm} BPM`;
+  const list = document.getElementById('trackList');
+  const empty = document.getElementById('trackEmpty');
+  if(state.tracks.length===0){ list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  list.innerHTML = state.tracks.map(t=>{
+    const inst = instById(t.instrument);
+    return `
+    <div class="track">
+      <div class="track-head">
+        <div class="track-icon" style="background:${t.color}25;">${inst.icon}</div>
+        <div style="flex:1;min-width:120px;">
+          <div class="track-name">${inst.name}</div>
+          <div class="vol-row">
+            <input type="range" min="0" max="100" value="${t.volume}" oninput="updateTrack('${t.id}',{volume:parseInt(this.value)})">
+            <span class="vol-val">${t.volume}</span>
+          </div>
+        </div>
+        <div class="track-actions">
+          <button class="micro-btn ${t.muted?'danger':''}" onclick="updateTrack('${t.id}',{muted:${!t.muted}})">${t.muted?'UNMUTE':'MUTE'}</button>
+          <button class="micro-btn ${t.solo?'on':''}" onclick="updateTrack('${t.id}',{solo:${!t.solo}})">SOLO</button>
+          <button class="micro-btn" onclick="shufflePattern('${t.id}')">🎲</button>
+          <button class="micro-btn" onclick="aiSuggestPattern('${t.id}')">✨</button>
+          <button class="micro-btn danger" onclick="removeTrack('${t.id}')">✕</button>
+        </div>
+      </div>
+      <div class="step-row">
+        ${t.steps.map((on,i)=>`<button class="step ${on?'on':''} ${i%4===0?'beat0':''} ${state.currentStep===i?'cur':''}" data-track="${t.id}" data-step="${i}" onclick="toggleStep('${t.id}',${i})"></button>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+function paintPlayhead(){
+  document.querySelectorAll('.step').forEach(el=>{
+    el.classList.toggle('cur', parseInt(el.dataset.step)===state.currentStep);
+  });
+}
+function paintTransport(){
+  document.getElementById('playBtn').innerHTML = state.isPlaying ? svgPause() : svgPlay();
+  const recBtn = document.getElementById('recBtn');
+  recBtn.classList.toggle('live', state.isRendering);
+  document.getElementById('recLabel').textContent = state.isRendering ? 'RENDERING…' : 'EXPORT MP3';
+}
+function svgPlay(){return `<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;}
+function svgPause(){return `<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>`;}
+
+function renderInstrumentGrids(){
+  const mk = inst => `<button class="inst-pad" onclick="addTrack('${inst.id}')" oncontextmenu="event.preventDefault();previewInstrument('${inst.id}')"><div class="ic">${inst.icon}</div><div class="nm">${inst.name}</div></button>`;
+  document.getElementById('instGridIndian').innerHTML = INSTRUMENTS.filter(i=>i.cat==='indian').map(mk).join('');
+  document.getElementById('instGridGlobal').innerHTML = INSTRUMENTS.filter(i=>i.cat==='global').map(mk).join('');
+}
+
+/* ============================== DISCOVER ============================== */
+function openPostFlow(){
+  if(state.tracks.length===0){ toast('Add a few tracks in the Studio first.', true); return; }
+  toast('Asking Ustaad AI for a title & caption…');
+  const names = state.tracks.map(t=>instById(t.instrument).name).join(', ');
+  const prompt = `Generate a catchy song title, a short Instagram caption (max 2 sentences, warm tone), and 8 relevant hashtags for an Indian classical/fusion track at ${state.bpm} BPM featuring: ${names}. Respond with ONLY raw JSON, no markdown: {"title":"...","caption":"...","hashtags":["#tag1","#tag2"]}`;
+  withGemini([{role:'user', content:prompt}], reply=>{
+    let title = `Raga Session · ${state.tracks.length} tracks`;
+    let caption = 'A new take, fresh out of the studio.';
+    let hashtags = ['#IndianClassical','#Fusion','#OriginalMusic'];
+    try{
+      const cleaned = reply.replace(/```json|```/g,'').trim();
+      const parsed = JSON.parse(cleaned);
+      if(parsed.title) title = parsed.title;
+      if(parsed.caption) caption = parsed.caption;
+      if(Array.isArray(parsed.hashtags)) hashtags = parsed.hashtags;
+    }catch(e){ /* fall back to defaults */ }
+    finalizePost(title, caption, hashtags, names);
+  });
+}
+function finalizePost(title, caption, hashtags, names){
+  const post = {
+    id: 'p'+Date.now(),
+    title, caption, hashtags,
+    instruments: names,
+    bpm: state.bpm,
+    date: new Date().toLocaleDateString(),
+    hasAudio: !!state.lastBlobUrl,
+    audioUrl: state.lastBlobUrl,
+  };
+  state.discover.unshift(post);
+  saveDiscover();
+  state.stats.posts++; saveStats();
+  switchTab('discover');
+  toast('Posted to your Discover log ✓');
+}
+function renderDiscover(){
+  const grid = document.getElementById('discoverGrid');
+  if(state.discover.length===0){
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">Nothing posted yet — make a track in the Studio, then hit "Post Your Take."</div>`;
+    return;
+  }
+  grid.innerHTML = state.discover.map(p=>`
+    <div class="glass post-card">
+      <div class="post-cover">🎵</div>
+      <div class="post-body">
+        <div style="font-weight:600;font-size:14px;">${escapeHtml(p.title)}</div>
+        <div style="font-size:12px;color:var(--brown-muted);margin-top:4px;">${escapeHtml(p.instruments)} · ${p.bpm} BPM · ${p.date}</div>
+        <div style="font-size:12.5px;margin-top:8px;line-height:1.5;">${escapeHtml(p.caption)}</div>
+        <div class="hashtags">${(p.hashtags||[]).map(h=>escapeHtml(h)).join(' ')}</div>
+        ${p.hasAudio ? `<a class="pill-btn dark" style="margin-top:10px;width:100%;justify-content:center;" href="${p.audioUrl}" download="${p.title.replace(/[^a-z0-9]/gi,'_')}.mp3">⬇ Download MP3</a>` : `<div style="font-size:10.5px;color:var(--brown-muted);margin-top:10px;">No audio attached (export an MP3 before posting next time)</div>`}
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ============================== STATS ============================== */
+function renderStats(){
+  document.getElementById('statTracks').textContent = state.stats.tracks;
+  document.getElementById('statExports').textContent = state.stats.exports;
+  document.getElementById('statPosts').textContent = state.stats.posts;
+  document.getElementById('streakBadge').textContent = `Day ${state.stats.streak} streak`;
+}
+
+/* ============================== BOOT ============================== */
+function bootApp(){
+  loadPersisted();
+  renderInstrumentGrids();
+  renderTracks();
+  renderChat();
+  renderStats();
+  paintTransport();
+  updateVoiceOutUI();
+  document.getElementById('bpmSlider').addEventListener('input', e=>setBpm(e.target.value));
+  document.getElementById('keyModal').addEventListener('click', e=>{ if(e.target.id==='keyModal') closeKeyModal(); });
+  if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged = ()=>{}; }
+}
+
+/* Load Tone.js + lamejs with their startup console noise fully silenced,
+   then boot the app. Errors still surface normally (only console.log is muted). */
+(function loadLibsAndBoot(){
+  const originalLog = console.log;
+  console.log = function(){};
+  function restoreLog(){ console.log = originalLog; }
+
+  const toneScript = document.createElement('script');
+  toneScript.src = 'https://cdn.jsdelivr.net/npm/tone@14/build/Tone.js';
+  toneScript.onload = function(){
+    const lameScript = document.createElement('script');
+    lameScript.src = 'https://cdn.jsdelivr.net/npm/lamejs@1.2.0/lame.min.js';
+    lameScript.onload = function(){ restoreLog(); bootApp(); };
+    lameScript.onerror = function(){ restoreLog(); toast('MP3 encoder failed to load — check your internet connection and reload.', true); bootApp(); };
+    document.head.appendChild(lameScript);
+  };
+  toneScript.onerror = function(){
+    restoreLog();
+    alert('Could not load the audio engine — check your internet connection and reload the page.');
+  };
+  document.head.appendChild(toneScript);
+})();
+</script>
+</body>
+</html>
